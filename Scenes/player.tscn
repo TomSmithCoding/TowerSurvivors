@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://rl8l8n3lqak6"]
+
+[ext_resource type="Script" path="res://Scripts/progress_bar.gd" id="1_iyoe2"]
+[ext_resource type="PackedScene" uid="uid://rl8l8n3lqak6" path="res://Scenes/player.tscn" id="2_fi8js"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1nl31"]
+bg_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myri4"]
+bg_color = Color(0, 0.726214, 0.172309, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_amjnr"]
+viewport_path = NodePath("Player/SubViewport")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n81j3"]
+size = Vector3(1, 1.6, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_fi8js")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856, 0)
+
+[node name="SubViewport" type="SubViewport" parent="Player"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="Player/SubViewport" groups=["Player"]]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_1nl31")
+theme_override_styles/fill = SubResource("StyleBoxFlat_myri4")
+value = 100.0
+script = ExtResource("1_iyoe2")
+
+[node name="Sprite3D" type="Sprite3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.93333, 0.35902, 0, -0.35902, 0.93333, 0, 1.38015, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_amjnr")
+
+[node name="Area3D" type="Area3D" parent="Player"]
+
+[node name="PlayerCollider" type="CollisionShape3D" parent="Player/Area3D"]
+shape = SubResource("BoxShape3D_n81j3")
+
+[connection signal="value_changed" from="Player/SubViewport/ProgressBar" to="Player/SubViewport/ProgressBar" method="_on_value_changed"]

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="towerResource" load_steps=3 format=3 uid="uid://t8rfxx5fs1jj"]
+
+[ext_resource type="PackedScene" uid="uid://c0b65u5pyatqx" path="res://Assets/projectile.tscn" id="1_fpxq5"]
+[ext_resource type="Script" path="res://Scripts/towerresource.gd" id="1_n05c3"]
+
+[resource]
+script = ExtResource("1_n05c3")
+tower_name = "Axe Lobber"
+projectile = ExtResource("1_fpxq5")
+fire_speed = 2
+attack_cd = 1.0
+attack_damage = 25
+damage_type = null
+tower_range = 1
+projectile_color = Color(1, 0, 0, 1)

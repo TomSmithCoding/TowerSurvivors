@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="towerResource" load_steps=3 format=3 uid="uid://qekkawlfhlw4"]
+
+[ext_resource type="Script" path="res://Scripts/towerresource.gd" id="1_3oh2s"]
+[ext_resource type="PackedScene" uid="uid://c0b65u5pyatqx" path="res://Assets/projectile.tscn" id="1_l77jc"]
+
+[resource]
+script = ExtResource("1_3oh2s")
+tower_name = "Arcane Bolt"
+projectile = ExtResource("1_l77jc")
+fire_speed = 2
+attack_cd = 2.0
+attack_damage = 50
+damage_type = 1
+tower_range = 1
+projectile_color = Color(0, 0, 1, 1)

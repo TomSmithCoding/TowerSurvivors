@@ -1,0 +1,126 @@
+[gd_scene load_steps=17 format=3 uid="uid://c3nxxm5rd78cj"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_bj7dn"]
+[ext_resource type="PackedScene" uid="uid://rl8l8n3lqak6" path="res://Assets/tower.tscn" id="1_s2x1u"]
+[ext_resource type="PackedScene" uid="uid://c24128b0cvcpj" path="res://UI/towermenu.tscn" id="2_2g7ko"]
+[ext_resource type="PackedScene" uid="uid://4omiecg1l6u" path="res://Assets/enemy.tscn" id="2_i4gb6"]
+[ext_resource type="Script" path="res://Scripts/progress_bar.gd" id="2_y8242"]
+[ext_resource type="Script" path="res://Scripts/RTSCamera.gd" id="6_wdswh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eraox"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_1l7vl"]
+sky_material = SubResource("ProceduralSkyMaterial_eraox")
+
+[sub_resource type="Environment" id="Environment_qj57f"]
+background_mode = 2
+sky = SubResource("Sky_1l7vl")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_gxyio"]
+offsets = PackedFloat32Array(0.0952381, 0.324675)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1y544"]
+gradient = SubResource("Gradient_gxyio")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7qys"]
+albedo_color = Color(0.278431, 0.372549, 0, 1)
+metallic = 1.0
+metallic_texture = SubResource("GradientTexture2D_1y544")
+metallic_texture_channel = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_owjrd"]
+material = SubResource("StandardMaterial3D_m7qys")
+size = Vector2(100, 100)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txc24"]
+bg_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovchk"]
+bg_color = Color(0, 0.726214, 0.172309, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ld5nj"]
+viewport_path = NodePath("Player/SubViewport")
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_bj7dn")
+enemy = ExtResource("2_i4gb6")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qj57f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, -0.617069, -0.340117, -0.965536)
+light_color = Color(1, 1, 0.521569, 1)
+light_energy = 1.2
+shadow_enabled = true
+shadow_blur = 1.464
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.306
+directional_shadow_max_distance = 151.9
+directional_shadow_pancake_size = 19.1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_owjrd")
+
+[node name="Player" parent="." instance=ExtResource("1_s2x1u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0117049, 0.855542, 0.817643)
+
+[node name="SubViewport" type="SubViewport" parent="Player"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="Player/SubViewport" groups=["Player"]]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_txc24")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ovchk")
+value = 100.0
+show_percentage = false
+script = ExtResource("2_y8242")
+
+[node name="Sprite3D" type="Sprite3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.93333, 0.35902, 0, -0.35902, 0.93333, 0, 1.38015, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_ld5nj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="CanvasLayer" instance=ExtResource("2_2g7ko")]
+mouse_filter = 1
+
+[node name="MobTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="CameraBase" type="Node3D" parent="."]
+script = ExtResource("6_wdswh")
+
+[node name="CameraSocket" type="Node3D" parent="CameraBase"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 3.512)
+
+[node name="Camera3D" type="Camera3D" parent="CameraBase/CameraSocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 2.78453, 3.08505)
+
+[connection signal="value_changed" from="Player/SubViewport/ProgressBar" to="Player/SubViewport/ProgressBar" method="_on_value_changed"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]

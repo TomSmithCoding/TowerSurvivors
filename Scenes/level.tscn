@@ -1,0 +1,202 @@
+[gd_scene load_steps=24 format=3 uid="uid://c3nxxm5rd78cj"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_bj7dn"]
+[ext_resource type="PackedScene" uid="uid://4omiecg1l6u" path="res://Assets/enemy.tscn" id="1_s2x1u"]
+[ext_resource type="PackedScene" uid="uid://c24128b0cvcpj" path="res://UI/towermenu.tscn" id="2_2g7ko"]
+[ext_resource type="Script" path="res://Scripts/progress_bar.gd" id="2_y8242"]
+[ext_resource type="PackedScene" uid="uid://brc0saa4wetuy" path="res://Assets/tower.tscn" id="3_0j3nv"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="3_883xx"]
+[ext_resource type="PackedScene" uid="uid://b4twtaf04bakm" path="res://UI/playerhealthvalue.tscn" id="5_d2brn"]
+[ext_resource type="Script" path="res://Scripts/RTSCamera.gd" id="6_wdswh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eraox"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_1l7vl"]
+sky_material = SubResource("ProceduralSkyMaterial_eraox")
+
+[sub_resource type="Environment" id="Environment_qj57f"]
+background_mode = 2
+sky = SubResource("Sky_1l7vl")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5ijlu"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="Gradient" id="Gradient_gxyio"]
+offsets = PackedFloat32Array(0.0952381, 0.324675)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1y544"]
+gradient = SubResource("Gradient_gxyio")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7qys"]
+albedo_color = Color(0.278431, 0.372549, 0, 1)
+metallic = 1.0
+metallic_texture = SubResource("GradientTexture2D_1y544")
+metallic_texture_channel = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_owjrd"]
+material = SubResource("StandardMaterial3D_m7qys")
+size = Vector2(100, 100)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7msxh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7b1u5"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txc24"]
+bg_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovchk"]
+bg_color = Color(0, 0.726214, 0.172309, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cw3g5"]
+bg_color = Color(0.205117, 0.205117, 0.205117, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ld5nj"]
+viewport_path = NodePath("Player/SubViewport")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8p311"]
+size = Vector3(1, 2, 1)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_bj7dn")
+enemy = ExtResource("1_s2x1u")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qj57f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, -0.617069, -0.340117, -0.965536)
+light_color = Color(1, 1, 0.521569, 1)
+light_energy = 1.2
+shadow_enabled = true
+shadow_blur = 1.464
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.306
+directional_shadow_max_distance = 151.9
+directional_shadow_pancake_size = 19.1
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_5ijlu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D/CollisionShape3D"]
+mesh = SubResource("PlaneMesh_owjrd")
+skeleton = NodePath("../../..")
+
+[node name="Player" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00969, 0)
+
+[node name="PlayerCharacterBody" type="CharacterBody3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.936931, 0)
+collision_mask = 11
+script = ExtResource("3_883xx")
+tower = ExtResource("3_0j3nv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/PlayerCharacterBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_7msxh")
+skeleton = NodePath("../..")
+
+[node name="SpareCollider" type="CollisionShape3D" parent="Player/PlayerCharacterBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11572, 0)
+shape = SubResource("BoxShape3D_7b1u5")
+
+[node name="SubViewport" type="SubViewport" parent="Player"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="PlayerHealth" type="ProgressBar" parent="Player/SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_txc24")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ovchk")
+max_value = 1000.0
+value = 1000.0
+show_percentage = false
+script = ExtResource("2_y8242")
+
+[node name="PlayerHealthValue" parent="Player/SubViewport/PlayerHealth" instance=ExtResource("5_d2brn")]
+layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -38.0
+offset_bottom = -15.0
+grow_vertical = 2
+scale = Vector2(1, 0.993)
+
+[node name="PlayerHealthBG" type="ProgressBar" parent="Player/SubViewport/PlayerHealth"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_cw3g5")
+show_percentage = false
+
+[node name="Sprite3D" type="Sprite3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.93333, 0.35902, 0, -0.35902, 0.93333, 0, 1.38015, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_ld5nj")
+
+[node name="Area3D" type="Area3D" parent="Player"]
+disable_mode = 1
+collision_layer = 4
+collision_mask = 2
+
+[node name="PlayerCollider" type="CollisionShape3D" parent="Player/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275455, 0)
+shape = SubResource("BoxShape3D_8p311")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="CanvasLayer" instance=ExtResource("2_2g7ko")]
+mouse_filter = 1
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="CameraBase" type="Node3D" parent="."]
+script = ExtResource("6_wdswh")
+camera_zoom_max = 13.0
+camera_zoom_speed_damp = 0.5
+
+[node name="CameraSocket" type="Node3D" parent="CameraBase"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 3.512)
+
+[node name="Camera3D" type="Camera3D" parent="CameraBase/CameraSocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 2.78453, 3.08505)
+
+[connection signal="value_changed" from="Player/SubViewport/PlayerHealth" to="Player/SubViewport/PlayerHealth" method="_on_value_changed"]
+[connection signal="body_shape_entered" from="Player/Area3D" to="Player/PlayerCharacterBody" method="_on_area_3d_body_shape_entered"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]

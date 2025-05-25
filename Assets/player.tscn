@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://l2exmu48kkq8"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_ydi1l"]
+[ext_resource type="Script" path="res://Scripts/progress_bar.gd" id="2_eqhdv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wk357"]
+
+[node name="Player" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_ydi1l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_wk357")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
+offset_right = 4.0
+offset_bottom = 27.0
+script = ExtResource("2_eqhdv")

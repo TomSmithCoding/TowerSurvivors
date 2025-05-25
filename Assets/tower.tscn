@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://brc0saa4wetuy"]
+
+[ext_resource type="Script" path="res://Scripts/tower.gd" id="1_ge27t"]
+[ext_resource type="PackedScene" uid="uid://bjb04jgofvubu" path="res://Assets/tower_projectile.tscn" id="2_bl61p"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2u555"]
+height = 1.0
+radius = 1.25
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_u02qu"]
+height = 1.0
+radius = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_v1gqb"]
+height = 1.0
+radius = 5.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xmswr"]
+height = 1.0
+radius = 7.0
+
+[node name="Tower" type="Node3D"]
+script = ExtResource("1_ge27t")
+projectile = ExtResource("2_bl61p")
+
+[node name="RayCast" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 1)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+collision_layer = 4
+collision_mask = 2
+
+[node name="100Range" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("CylinderShape3D_2u555")
+disabled = true
+
+[node name="300Range" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("CylinderShape3D_u02qu")
+disabled = true
+
+[node name="500Range" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("CylinderShape3D_v1gqb")
+disabled = true
+
+[node name="700Range" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("CylinderShape3D_xmswr")
+disabled = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+
+[connection signal="body_shape_entered" from="Area3D" to="." method="_on_area_3d_body_shape_entered"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_timer_timeout"]

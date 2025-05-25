@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cimvjkddt1tig"]
+
+[ext_resource type="FontFile" uid="uid://b5xo6qobcryik" path="res://UI/pixelFont-7-8x14-sproutLands.ttf" id="1_dndoc"]
+
+[resource]
+font = ExtResource("1_dndoc")
+font_size = 36
+font_color = Color(0.830335, 0.830335, 0.830335, 1)
+outline_size = 9
+outline_color = Color(0.2484, 0.2484, 0.2484, 1)

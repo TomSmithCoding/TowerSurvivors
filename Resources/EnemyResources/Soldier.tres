@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="enemyResource" load_steps=2 format=3 uid="uid://byaxbw0g0nsha"]
+
+[ext_resource type="Script" path="res://Scripts/enemyresource.gd" id="1_rc4v7"]
+
+[resource]
+script = ExtResource("1_rc4v7")
+speed = 2.0
+fire_speed = 0.0
+attack_cd = 2.0
+attack_damage = 5
+attack_type = 0
+enemymaxhealth = 300
+enemycurrenthealth = 300
+enemy_colour = Color(1, 0, 0, 1)
+projectile_color = Color(0, 0, 0, 1)
+range = 0

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0b65u5pyatqx"]
+
+[ext_resource type="Script" path="res://Scripts/enemy_projectile.gd" id="1_txube"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mitfy"]
+radius = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tndlg"]
+resource_local_to_scene = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_k5ffy"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_tndlg")
+radius = 0.05
+height = 0.1
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+collision_layer = 8
+script = ExtResource("1_txube")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_mitfy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_k5ffy")

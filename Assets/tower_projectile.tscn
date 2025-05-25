@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjb04jgofvubu"]
+
+[ext_resource type="Script" path="res://Scripts/tower_projectile.gd" id="1_guxxd"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3kc47"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sye0t"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_nlu3j"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_sye0t")
+radius = 0.25
+height = 0.5
+
+[node name="TowerProjectile" type="CharacterBody3D"]
+collision_mask = 2
+script = ExtResource("1_guxxd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_3kc47")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("SphereMesh_nlu3j")

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="towerResource" load_steps=3 format=3 uid="uid://dwt4eyp51ckxp"]
+
+[ext_resource type="PackedScene" uid="uid://c0b65u5pyatqx" path="res://Assets/projectile.tscn" id="1_07fx4"]
+[ext_resource type="Script" path="res://Scripts/towerresource.gd" id="1_s6hj0"]
+
+[resource]
+script = ExtResource("1_s6hj0")
+tower_name = "Boulders"
+projectile = ExtResource("1_07fx4")
+fire_speed = 1
+attack_cd = 4.0
+attack_damage = 100
+damage_type = 2
+tower_range = 3
+projectile_color = Color(0.49836, 0.20792, 0.743401, 1)

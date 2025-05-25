@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="towerResource" load_steps=2 format=3 uid="uid://dhj1uopmtflh4"]
+
+[ext_resource type="Script" path="res://Scripts/towerresource.gd" id="1_om4xf"]
+
+[resource]
+script = ExtResource("1_om4xf")
+tower_name = "Immolation"
+fire_speed = 1
+attack_cd = 0.05
+attack_damage = 1
+attack_type = 1
+damage_type = 1
+tower_range = 0
+projectile_color = Color(0.740643, 0.457009, 0.237081, 1)

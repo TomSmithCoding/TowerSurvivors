@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="enemyResource" load_steps=3 format=3 uid="uid://lycyqnnvy3ng"]
+
+[ext_resource type="PackedScene" uid="uid://c0b65u5pyatqx" path="res://Assets/projectile.tscn" id="1_ii36t"]
+[ext_resource type="Script" path="res://Scripts/enemyresource.gd" id="1_s2km4"]
+
+[resource]
+script = ExtResource("1_s2km4")
+projectile = ExtResource("1_ii36t")
+speed = 0.5
+fire_speed = 2.0
+attack_cd = 6.0
+attack_damage = 25
+attack_type = 3
+enemymaxhealth = 600
+enemycurrenthealth = 600
+enemy_colour = Color(0.597497, 0.0097947, 0.586269, 1)
+projectile_color = Color(0.756517, 0.000442803, 0.756512, 1)
+range = 0
